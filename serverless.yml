@@ -1,0 +1,58 @@
+service:
+  name: netspeeed
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ap-northeast-1
+  iamRoleStatements:
+    - Effect: Allow
+      Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/*'
+      Action:
+        - 'dynamodb:*'
+
+functions:
+  register:
+    handler: src/api/handler.register
+    events:
+      - http:
+          method: post
+          path: users/{user}/netspeeed
+          request:
+            parameters:
+              paths:
+                user: true
+
+  read:
+    handler: src/api/handler.read
+    events:
+      - http:
+          method: get
+          path: users/{user}/netspeeed
+          request:
+            parameters:
+              paths:
+                user: true
+
+resources:
+  Resources:
+    netspeeed:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: user
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: N
+        KeySchema:
+          - AttributeName: user
+            KeyType: HASH
+          - AttributeName: timestamp
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: netspeeed
