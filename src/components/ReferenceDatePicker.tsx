@@ -6,7 +6,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import FastForwardIcon from '@material-ui/icons/FastForward'
 import FastRewindIcon from '@material-ui/icons/FastRewind'
 import dayjs from 'dayjs'
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useEffect, useRef } from 'react'
 import Viewport from '../entities/Viewport'
 
 interface Props {
@@ -17,16 +17,22 @@ interface Props {
 const ReferenceDatePicker: FC<Props> = props => {
   const { timestamp, onChange } = props
 
+  const timestampRef = useRef(timestamp)
+
   const change = useCallback(
     (value: number, unit: dayjs.OpUnitType) => {
       onChange({
-        timestamp: dayjs(timestamp)
+        timestamp: dayjs(timestampRef.current)
           .add(value, unit)
           .valueOf()
       })
     },
-    [timestamp, onChange]
+    [onChange]
   )
+
+  useEffect(() => {
+    timestampRef.current = timestamp
+  }, [timestamp])
 
   const prevW = useCallback(() => change(-1, 'week'), [change])
   const prevD = useCallback(() => change(-1, 'day'), [change])
