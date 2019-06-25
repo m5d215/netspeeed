@@ -1,3 +1,4 @@
+import Box from '@material-ui/core/Box'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import React, { FC } from 'react'
 import Navigation from './containers/Navigation'
@@ -10,7 +11,9 @@ const App: FC = () => {
     <>
       <CssBaseline />
       <Navigation />
-      <ReferenceDatePicker />
+      <Box padding={1}>
+        <ReferenceDatePicker />
+      </Box>
       <NetworkSpeedChart />
       <PerTimeChart />
     </>
