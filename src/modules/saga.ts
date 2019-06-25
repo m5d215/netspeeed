@@ -2,10 +2,9 @@ import axios, { AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects'
 import { ActionType } from 'typesafe-actions'
-import NetworkSpeed, { smooth } from '../entities/NetworkSpeed'
+import NetworkSpeed from '../entities/NetworkSpeed'
 import Settings, { defaultSettings } from '../entities/Settings'
 import { transformRange } from '../entities/Viewport'
-import floorDate from '../utilities/floorDate'
 import { changeSettings, changeWindow, fetch, initialize } from './actions'
 import State from './State'
 
@@ -59,7 +58,7 @@ function* handleFetch(action: ActionType<typeof fetch.request>): SagaIterator {
       }
     )
     if (resolution !== 'day') {
-      yield put(fetch.success(smooth(data, floorDate)))
+      yield put(fetch.success(data))
     } else {
       yield put(fetch.success(data))
     }

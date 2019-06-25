@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import NetworkSpeedChart from '../components/NetworkSpeedChart'
+import { smooth } from '../entities/NetworkSpeed'
 import State from '../modules/State'
+import floorDate from '../utilities/floorDate'
 
 export default connect(
   (state: State) => {
@@ -8,7 +10,10 @@ export default connect(
       records,
       viewport: { resolution }
     } = state
-    return { records, resolution }
+    return {
+      records: resolution !== 'day' ? smooth(records, floorDate) : records,
+      resolution
+    }
   },
   {}
 )(NetworkSpeedChart)
