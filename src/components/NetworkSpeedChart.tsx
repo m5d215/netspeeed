@@ -1,3 +1,4 @@
+import { makeStyles, Theme } from '@material-ui/core'
 import blue from '@material-ui/core/colors/blue'
 import pink from '@material-ui/core/colors/pink'
 import yellow from '@material-ui/core/colors/yellow'
@@ -6,6 +7,7 @@ import { round } from 'number-precision'
 import React, { FC, useCallback } from 'react'
 import {
   CartesianGrid,
+  Label,
   Legend,
   Line,
   LineChart,
@@ -16,6 +18,12 @@ import {
 import NetworkSpeed from '../entities/NetworkSpeed'
 import { DateResolution } from '../entities/Viewport'
 
+const useStyles = makeStyles((theme: Theme) => ({
+  label: {
+    fill: theme.palette.text.hint
+  }
+}))
+
 interface Props {
   records: NetworkSpeed[]
   resolution: DateResolution
@@ -23,6 +31,7 @@ interface Props {
 
 const NetworkSpeedChart: FC<Props> = props => {
   const { records, resolution } = props
+  const classes = useStyles()
 
   const selectTimestamp = useCallback(
     resolution !== 'day'
@@ -36,8 +45,16 @@ const NetworkSpeedChart: FC<Props> = props => {
       <LineChart data={records}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey={selectTimestamp} interval="preserveStartEnd" />
-        <YAxis yAxisId="MB" orientation="left" />
-        <YAxis yAxisId="ms" orientation="right" />
+        <YAxis yAxisId="MB" orientation="left">
+          <Label angle={270} className={classes.label}>
+            Mbps
+          </Label>
+        </YAxis>
+        <YAxis yAxisId="ms" orientation="right">
+          <Label angle={270} className={classes.label}>
+            ms
+          </Label>
+        </YAxis>
         <Legend verticalAlign="bottom" height={36} />
         <Line
           name="upload"
