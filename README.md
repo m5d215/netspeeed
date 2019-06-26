@@ -2,7 +2,7 @@
 
 Continuously measure and visualize the home internet speed.
 
-![screenshot](screenshot.png)
+![screenshot](https://github.com/m5d215/netspeeed/raw/master/screenshot.png)
 
 ## Requirements
 
