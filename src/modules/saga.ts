@@ -44,8 +44,7 @@ function* handleFetch(action: ActionType<typeof fetch.request>): SagaIterator {
   } = action
 
   const {
-    settings: { serverURL: baseURL, user },
-    viewport: { resolution }
+    settings: { serverURL: baseURL, user }
   }: State = yield select()
 
   try {
@@ -57,11 +56,7 @@ function* handleFetch(action: ActionType<typeof fetch.request>): SagaIterator {
         params: { begin, end }
       }
     )
-    if (resolution !== 'day') {
-      yield put(fetch.success(data))
-    } else {
-      yield put(fetch.success(data))
-    }
+    yield put(fetch.success(data))
   } catch (error) {
     yield put(fetch.failure(error))
   }
