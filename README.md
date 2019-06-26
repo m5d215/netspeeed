@@ -38,13 +38,11 @@ endpoints:
 
 ### 2. Create a Docker container that keeps measuring the internet speed
 
-After building the Docker image, start the Docker container in the background.
+Start the Docker container in the background.
 
 ```sh
 git clone https://github.com/m5d215/netspeeed.git
 cd netspeeed/client
-
-docker image build -t m5d215/netspeeed:client .
 
 # ⚠️ Change environment variables according to your own environment.
 docker container run \
